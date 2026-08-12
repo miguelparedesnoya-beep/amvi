@@ -1,4 +1,3 @@
-```python
 from pathlib import Path
 import os
 
@@ -14,7 +13,10 @@ SECRET_KEY = os.environ.get(
     "cambia-esta-clave-en-produccion"
 )
 
-DEBUG = os.environ.get("DJANGO_DEBUG", "False").lower() == "true"
+DEBUG = os.environ.get(
+    "DJANGO_DEBUG",
+    "False"
+).lower() == "true"
 
 
 # =========================================================
@@ -206,4 +208,3 @@ MEDIA_ROOT = BASE_DIR / "media"
 # =========================================================
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
-```
