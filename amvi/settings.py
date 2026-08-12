@@ -1,3 +1,4 @@
+```python
 from pathlib import Path
 import os
 
@@ -13,7 +14,6 @@ SECRET_KEY = os.environ.get(
     "cambia-esta-clave-en-produccion"
 )
 
-# En Render debe estar en False
 DEBUG = os.environ.get("DJANGO_DEBUG", "False").lower() == "true"
 
 
@@ -111,12 +111,12 @@ WSGI_APPLICATION = "amvi.wsgi.application"
 
 
 # =========================================================
-# BASE DE DATOS
+# BASE DE DATOS - POSTGRESQL
 # =========================================================
 
 DATABASES = {
     "default": {
-        "ENGINE": "django.db.backends.mysql",
+        "ENGINE": "django.db.backends.postgresql",
 
         "NAME": os.environ.get(
             "DB_NAME",
@@ -125,7 +125,7 @@ DATABASES = {
 
         "USER": os.environ.get(
             "DB_USER",
-            "root"
+            "amvi_user2"
         ),
 
         "PASSWORD": os.environ.get(
@@ -135,12 +135,12 @@ DATABASES = {
 
         "HOST": os.environ.get(
             "DB_HOST",
-            "127.0.0.1"
+            ""
         ),
 
         "PORT": os.environ.get(
             "DB_PORT",
-            "3306"
+            "5432"
         ),
     }
 }
@@ -206,3 +206,4 @@ MEDIA_ROOT = BASE_DIR / "media"
 # =========================================================
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
+```
