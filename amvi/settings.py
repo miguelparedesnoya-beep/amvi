@@ -1,8 +1,8 @@
 from pathlib import Path
 import os
+import dj_database_url
 
 BASE_DIR = Path(__file__).resolve().parent.parent
-
 
 # =========================================================
 # SEGURIDAD
@@ -10,19 +10,16 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 SECRET_KEY = os.environ.get(
     "DJANGO_SECRET_KEY",
-    "cambia-esta-clave-en-produccion"
+    "django-insecure-clave-local-amvi"
 )
 
-# TEMPORALMENTE EN TRUE PARA VER EL ERROR 500
-DEBUG = True
-
+DEBUG = os.environ.get("DJANGO_DEBUG", "False").lower() == "true"
 
 ALLOWED_HOSTS = [
     "amvi-1.onrender.com",
     "localhost",
     "127.0.0.1",
 ]
-
 
 CSRF_TRUSTED_ORIGINS = [
     "https://amvi-1.onrender.com",
@@ -55,15 +52,10 @@ MIDDLEWARE = [
     "whitenoise.middleware.WhiteNoiseMiddleware",
 
     "django.contrib.sessions.middleware.SessionMiddleware",
-
     "django.middleware.common.CommonMiddleware",
-
     "django.middleware.csrf.CsrfViewMiddleware",
-
     "django.contrib.auth.middleware.AuthenticationMiddleware",
-
     "django.contrib.messages.middleware.MessageMiddleware",
-
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
 ]
 
@@ -92,19 +84,13 @@ TEMPLATES = [
         "OPTIONS": {
             "context_processors": [
                 "django.template.context_processors.request",
-
                 "django.contrib.auth.context_processors.auth",
-
                 "django.contrib.messages.context_processors.messages",
             ],
         },
     },
 ]
 
-
-# =========================================================
-# WSGI
-# =========================================================
 
 WSGI_APPLICATION = "amvi.wsgi.application"
 
@@ -113,24 +99,24 @@ WSGI_APPLICATION = "amvi.wsgi.application"
 # BASE DE DATOS
 # =========================================================
 
-DATABASES = {
-    "default": {
-        "ENGINE": "django.db.backends.postgresql",
+DATABASE_URL = os.environ.get("DATABASE_URL")
 
-        "NAME": os.environ.get("DB_NAME"),
-
-        "USER": os.environ.get("DB_USER"),
-
-        "PASSWORD": os.environ.get("DB_PASSWORD"),
-
-        "HOST": os.environ.get("DB_HOST"),
-
-        "PORT": os.environ.get(
-            "DB_PORT",
-            "5432"
-        ),
+if DATABASE_URL:
+    DATABASES = {
+        "default": dj_database_url.parse(
+            DATABASE_URL,
+            conn_max_age=600,
+            ssl_require=True,
+        )
     }
-}
+else:
+    # Base de datos local de respaldo
+    DATABASES = {
+        "default": {
+            "ENGINE": "django.db.backends.sqlite3",
+            "NAME": BASE_DIR / "db.sqlite3",
+        }
+    }
 
 
 # =========================================================
@@ -142,17 +128,14 @@ AUTH_PASSWORD_VALIDATORS = [
         "NAME":
         "django.contrib.auth.password_validation.UserAttributeSimilarityValidator",
     },
-
     {
         "NAME":
         "django.contrib.auth.password_validation.MinimumLengthValidator",
     },
-
     {
         "NAME":
         "django.contrib.auth.password_validation.CommonPasswordValidator",
     },
-
     {
         "NAME":
         "django.contrib.auth.password_validation.NumericPasswordValidator",
@@ -181,23 +164,18 @@ STATIC_URL = "/static/"
 
 STATIC_ROOT = BASE_DIR / "staticfiles"
 
+STATICFILES_STORAGE = (
+    "whitenoise.storage.CompressedManifestStaticFilesStorage"
+)
+
 
 # =========================================================
-# ARCHIVOS MEDIA / IMÁGENES
+# ARCHIVOS MULTIMEDIA
 # =========================================================
 
 MEDIA_URL = "/media/"
 
 MEDIA_ROOT = BASE_DIR / "media"
-
-
-# =========================================================
-# WHITENOISE
-# =========================================================
-
-STATICFILES_STORAGE = (
-    "whitenoise.storage.CompressedManifestStaticFilesStorage"
-)
 
 
 # =========================================================
