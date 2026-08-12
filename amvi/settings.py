@@ -3,25 +3,12 @@ import os
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-
-# =========================================================
-# SEGURIDAD
-# =========================================================
-
 SECRET_KEY = os.environ.get(
     "DJANGO_SECRET_KEY",
     "cambia-esta-clave-en-produccion"
 )
 
-DEBUG = os.environ.get(
-    "DJANGO_DEBUG",
-    "False"
-).lower() == "true"
-
-
-# =========================================================
-# HOSTS PERMITIDOS
-# =========================================================
+DEBUG = os.environ.get("DJANGO_DEBUG", "False").lower() == "true"
 
 ALLOWED_HOSTS = [
     host.strip()
@@ -32,11 +19,6 @@ ALLOWED_HOSTS = [
     if host.strip()
 ]
 
-
-# =========================================================
-# CSRF
-# =========================================================
-
 CSRF_TRUSTED_ORIGINS = [
     origin.strip()
     for origin in os.environ.get(
@@ -46,11 +28,6 @@ CSRF_TRUSTED_ORIGINS = [
     if origin.strip()
 ]
 
-
-# =========================================================
-# APLICACIONES
-# =========================================================
-
 INSTALLED_APPS = [
     "django.contrib.admin",
     "django.contrib.auth",
@@ -58,14 +35,8 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
-
     "publicaciones",
 ]
-
-
-# =========================================================
-# MIDDLEWARE
-# =========================================================
 
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
@@ -77,17 +48,7 @@ MIDDLEWARE = [
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
 ]
 
-
-# =========================================================
-# URLS
-# =========================================================
-
 ROOT_URLCONF = "amvi.urls"
-
-
-# =========================================================
-# TEMPLATES
-# =========================================================
 
 TEMPLATES = [
     {
@@ -104,53 +65,18 @@ TEMPLATES = [
     },
 ]
 
-
-# =========================================================
-# WSGI
-# =========================================================
-
 WSGI_APPLICATION = "amvi.wsgi.application"
-
-
-# =========================================================
-# BASE DE DATOS - POSTGRESQL
-# =========================================================
 
 DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.postgresql",
-
-        "NAME": os.environ.get(
-            "DB_NAME",
-            "amvi_db"
-        ),
-
-        "USER": os.environ.get(
-            "DB_USER",
-            "amvi_user2"
-        ),
-
-        "PASSWORD": os.environ.get(
-            "DB_PASSWORD",
-            ""
-        ),
-
-        "HOST": os.environ.get(
-            "DB_HOST",
-            ""
-        ),
-
-        "PORT": os.environ.get(
-            "DB_PORT",
-            "5432"
-        ),
+        "NAME": os.environ.get("DB_NAME", "amvi_db"),
+        "USER": os.environ.get("DB_USER", "amvi_user2"),
+        "PASSWORD": os.environ.get("DB_PASSWORD", ""),
+        "HOST": os.environ.get("DB_HOST", ""),
+        "PORT": os.environ.get("DB_PORT", "5432"),
     }
 }
-
-
-# =========================================================
-# VALIDACIÓN DE CONTRASEÑAS
-# =========================================================
 
 AUTH_PASSWORD_VALIDATORS = [
     {
@@ -171,11 +97,6 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-
-# =========================================================
-# IDIOMA Y ZONA HORARIA
-# =========================================================
-
 LANGUAGE_CODE = "es-co"
 
 TIME_ZONE = "America/Bogota"
@@ -184,27 +105,12 @@ USE_I18N = True
 
 USE_TZ = True
 
-
-# =========================================================
-# ARCHIVOS ESTÁTICOS
-# =========================================================
-
 STATIC_URL = "/static/"
 
 STATIC_ROOT = BASE_DIR / "staticfiles"
 
-
-# =========================================================
-# ARCHIVOS MEDIA
-# =========================================================
-
 MEDIA_URL = "/media/"
 
 MEDIA_ROOT = BASE_DIR / "media"
-
-
-# =========================================================
-# MODELOS
-# =========================================================
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
