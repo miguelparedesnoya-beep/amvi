@@ -3,18 +3,51 @@ import os
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
+
+# =========================================================
+# SEGURIDAD
+# =========================================================
+
 SECRET_KEY = os.environ.get(
     "DJANGO_SECRET_KEY",
     "cambia-esta-clave-en-produccion"
 )
 
-DEBUG = os.environ.get("DJANGO_DEBUG", "True").lower() == "true"
+# En Render debe estar en False
+DEBUG = os.environ.get("DJANGO_DEBUG", "False").lower() == "true"
+
+
+# =========================================================
+# HOSTS PERMITIDOS
+# =========================================================
 
 ALLOWED_HOSTS = [
-    "amvi-1.onrender.com",
-    "localhost",
-    "127.0.0.1",
+    host.strip()
+    for host in os.environ.get(
+        "DJANGO_ALLOWED_HOSTS",
+        "127.0.0.1,localhost,amvi-1.onrender.com"
+    ).split(",")
+    if host.strip()
 ]
+
+
+# =========================================================
+# CSRF
+# =========================================================
+
+CSRF_TRUSTED_ORIGINS = [
+    origin.strip()
+    for origin in os.environ.get(
+        "DJANGO_CSRF_TRUSTED_ORIGINS",
+        "https://amvi-1.onrender.com"
+    ).split(",")
+    if origin.strip()
+]
+
+
+# =========================================================
+# APLICACIONES
+# =========================================================
 
 INSTALLED_APPS = [
     "django.contrib.admin",
@@ -23,8 +56,14 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
+
     "publicaciones",
 ]
+
+
+# =========================================================
+# MIDDLEWARE
+# =========================================================
 
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
@@ -36,7 +75,17 @@ MIDDLEWARE = [
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
 ]
 
+
+# =========================================================
+# URLS
+# =========================================================
+
 ROOT_URLCONF = "amvi.urls"
+
+
+# =========================================================
+# TEMPLATES
+# =========================================================
 
 TEMPLATES = [
     {
@@ -53,33 +102,77 @@ TEMPLATES = [
     },
 ]
 
+
+# =========================================================
+# WSGI
+# =========================================================
+
 WSGI_APPLICATION = "amvi.wsgi.application"
+
+
+# =========================================================
+# BASE DE DATOS
+# =========================================================
 
 DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.mysql",
-        "NAME": os.environ.get("DB_NAME", "amvi_db"),
-        "USER": os.environ.get("DB_USER", "root"),
-        "PASSWORD": os.environ.get("DB_PASSWORD", ""),
-        "HOST": os.environ.get("DB_HOST", "127.0.0.1"),
-        "PORT": os.environ.get("DB_PORT", "3306"),
+
+        "NAME": os.environ.get(
+            "DB_NAME",
+            "amvi_db"
+        ),
+
+        "USER": os.environ.get(
+            "DB_USER",
+            "root"
+        ),
+
+        "PASSWORD": os.environ.get(
+            "DB_PASSWORD",
+            ""
+        ),
+
+        "HOST": os.environ.get(
+            "DB_HOST",
+            "127.0.0.1"
+        ),
+
+        "PORT": os.environ.get(
+            "DB_PORT",
+            "3306"
+        ),
     }
 }
 
+
+# =========================================================
+# VALIDACIÓN DE CONTRASEÑAS
+# =========================================================
+
 AUTH_PASSWORD_VALIDATORS = [
     {
-        "NAME": "django.contrib.auth.password_validation.UserAttributeSimilarityValidator"
+        "NAME":
+        "django.contrib.auth.password_validation.UserAttributeSimilarityValidator"
     },
     {
-        "NAME": "django.contrib.auth.password_validation.MinimumLengthValidator"
+        "NAME":
+        "django.contrib.auth.password_validation.MinimumLengthValidator"
     },
     {
-        "NAME": "django.contrib.auth.password_validation.CommonPasswordValidator"
+        "NAME":
+        "django.contrib.auth.password_validation.CommonPasswordValidator"
     },
     {
-        "NAME": "django.contrib.auth.password_validation.NumericPasswordValidator"
+        "NAME":
+        "django.contrib.auth.password_validation.NumericPasswordValidator"
     },
 ]
+
+
+# =========================================================
+# IDIOMA Y ZONA HORARIA
+# =========================================================
 
 LANGUAGE_CODE = "es-co"
 
@@ -89,12 +182,27 @@ USE_I18N = True
 
 USE_TZ = True
 
+
+# =========================================================
+# ARCHIVOS ESTÁTICOS
+# =========================================================
+
 STATIC_URL = "/static/"
 
 STATIC_ROOT = BASE_DIR / "staticfiles"
 
+
+# =========================================================
+# ARCHIVOS MEDIA
+# =========================================================
+
 MEDIA_URL = "/media/"
 
 MEDIA_ROOT = BASE_DIR / "media"
+
+
+# =========================================================
+# MODELOS
+# =========================================================
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
