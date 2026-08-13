@@ -1,0 +1,10 @@
+{% extends "publicaciones/base.html" %}
+{% block title %}AMVI | Contacto{% endblock %}
+{% block content %}
+<section class="page-banner"><div class="container"><span class="eyebrow">COMUNICACIÓN</span><h1>Contacto</h1></div></section>
+<section class="section"><div class="container"><div class="row g-5 align-items-start">
+<div class="col-lg-5"><h2>AMVI</h2><p>Asociación de Productores Multiactivos de Villa Isabel.</p><p>📱 WhatsApp: <strong>314 255 2654</strong></p><p>📍 Villa Isabel</p><a class="btn btn-primary" target="_blank" href="https://wa.me/{{ whatsapp }}?text=Hola%20AMVI,%20quiero%20recibir%20información.">Escribir por WhatsApp</a></div>
+<div class="col-lg-7"><div class="info-card"><h3>Envíanos un mensaje</h3><form onsubmit="return abrirWhatsApp(event)"><div class="mb-3"><label class="form-label">Nombre</label><input id="nombre" class="form-control" required></div><div class="mb-3"><label class="form-label">Correo</label><input id="correo" type="email" class="form-control" required></div><div class="mb-3"><label class="form-label">Mensaje</label><textarea id="mensaje" class="form-control" rows="5" required></textarea></div><button class="btn btn-primary">Enviar mensaje</button></form></div></div>
+</div></div></section>
+<script>function abrirWhatsApp(e){e.preventDefault();const n=document.getElementById('nombre').value,c=document.getElementById('correo').value,m=document.getElementById('mensaje').value;window.open('https://wa.me/{{ whatsapp }}?text='+encodeURIComponent('Hola AMVI. Mi nombre es '+n+'. Mi correo es '+c+'. Mensaje: '+m),'_blank');return false;}</script>
+{% endblock %}

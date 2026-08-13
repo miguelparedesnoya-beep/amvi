@@ -1,0 +1,10 @@
+{% extends "publicaciones/base.html" %}
+{% block title %}AMVI | Galería{% endblock %}
+{% block content %}
+<section class="page-banner"><div class="container"><span class="eyebrow">MEMORIA AMVI</span><h1>Galería</h1></div></section>
+<section class="section"><div class="container"><div class="row g-3">
+{% for foto in fotos %}<div class="col-6 col-md-4 col-lg-3"><button class="gallery-item border-0 p-0 w-100" data-bs-toggle="modal" data-bs-target="#foto{{ foto.id }}"><img src="{{ foto.imagen.url }}" alt="{{ foto.titulo }}"></button>
+<div class="modal fade" id="foto{{ foto.id }}" tabindex="-1"><div class="modal-dialog modal-lg modal-dialog-centered"><div class="modal-content"><img src="{{ foto.imagen.url }}" class="img-fluid" alt="{{ foto.titulo }}"></div></div></div></div>
+{% empty %}<div class="col-12"><p>Aún no hay fotografías. Súbelas desde <strong>/admin/</strong>.</p></div>{% endfor %}
+</div></div></section>
+{% endblock %}
