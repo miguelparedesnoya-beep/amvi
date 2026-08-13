@@ -1,8 +1,8 @@
 from pathlib import Path
 import os
-import dj_database_url
 
 BASE_DIR = Path(__file__).resolve().parent.parent
+
 
 # =========================================================
 # SEGURIDAD
@@ -13,13 +13,18 @@ SECRET_KEY = os.environ.get(
     "django-insecure-clave-local-amvi"
 )
 
-DEBUG = os.environ.get("DJANGO_DEBUG", "False").lower() == "true"
+DEBUG = os.environ.get(
+    "DJANGO_DEBUG",
+    "False"
+).lower() == "true"
+
 
 ALLOWED_HOSTS = [
     "amvi-1.onrender.com",
     "localhost",
     "127.0.0.1",
 ]
+
 
 CSRF_TRUSTED_ORIGINS = [
     "https://amvi-1.onrender.com",
@@ -48,7 +53,6 @@ INSTALLED_APPS = [
 
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
-
     "whitenoise.middleware.WhiteNoiseMiddleware",
 
     "django.contrib.sessions.middleware.SessionMiddleware",
@@ -99,16 +103,34 @@ WSGI_APPLICATION = "amvi.wsgi.application"
 # BASE DE DATOS
 # =========================================================
 
-DATABASE_URL = os.environ.get("DATABASE_URL")
+DB_NAME = os.environ.get("DB_NAME")
+DB_USER = os.environ.get("DB_USER")
+DB_PASSWORD = os.environ.get("DB_PASSWORD")
+DB_HOST = os.environ.get("DB_HOST")
+DB_PORT = os.environ.get("DB_PORT", "5432")
 
-if DATABASE_URL:
+
+if all([
+    DB_NAME,
+    DB_USER,
+    DB_PASSWORD,
+    DB_HOST,
+]):
     DATABASES = {
-        "default": dj_database_url.parse(
-            DATABASE_URL,
-            conn_max_age=600,
-            ssl_require=True,
-        )
+        "default": {
+            "ENGINE": "django.db.backends.postgresql",
+            "NAME": DB_NAME,
+            "USER": DB_USER,
+            "PASSWORD": DB_PASSWORD,
+            "HOST": DB_HOST,
+            "PORT": DB_PORT,
+            "OPTIONS": {
+                "sslmode": "require",
+            },
+            "CONN_MAX_AGE": 600,
+        }
     }
+
 else:
     # Base de datos local de respaldo
     DATABASES = {
