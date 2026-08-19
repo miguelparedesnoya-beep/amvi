@@ -49,6 +49,11 @@ INSTALLED_APPS = [
     "django.contrib.messages",
     "django.contrib.staticfiles",
 
+    # Cloudinary
+    "cloudinary",
+    "cloudinary_storage",
+
+    # Aplicación AMVI
     "publicaciones",
 ]
 
@@ -184,21 +189,29 @@ STATIC_ROOT = BASE_DIR / "staticfiles"
 
 
 # ============================================================
-# WHITENOISE
+# CLOUDINARY
 # ============================================================
 
-STATICFILES_STORAGE = (
-    "whitenoise.storage.CompressedManifestStaticFilesStorage"
-)
+CLOUDINARY_STORAGE = {
+    "CLOUD_NAME": os.environ.get("CLOUDINARY_CLOUD_NAME"),
+    "API_KEY": os.environ.get("CLOUDINARY_API_KEY"),
+    "API_SECRET": os.environ.get("CLOUDINARY_API_SECRET"),
+}
 
 
 # ============================================================
-# ARCHIVOS MULTIMEDIA
+# ALMACENAMIENTO
 # ============================================================
 
-MEDIA_URL = "/media/"
+STORAGES = {
+    "default": {
+        "BACKEND": "cloudinary_storage.storage.MediaCloudinaryStorage",
+    },
 
-MEDIA_ROOT = BASE_DIR / "media"
+    "staticfiles": {
+        "BACKEND": "whitenoise.storage.CompressedManifestStaticFilesStorage",
+    },
+}
 
 
 # ============================================================
