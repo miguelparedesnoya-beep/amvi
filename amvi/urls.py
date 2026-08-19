@@ -10,7 +10,7 @@ urlpatterns = [
 ]
 
 
-# Servir imágenes y archivos subidos
+# Servir archivos multimedia (imágenes y archivos subidos)
 urlpatterns += static(
     settings.MEDIA_URL,
     document_root=settings.MEDIA_ROOT
