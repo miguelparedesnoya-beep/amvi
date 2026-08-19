@@ -9,9 +9,8 @@ urlpatterns = [
     path("", include("publicaciones.urls")),
 ]
 
-
-if settings.DEBUG:
-    urlpatterns += static(
-        settings.MEDIA_URL,
-        document_root=settings.MEDIA_ROOT
-    )
+# Servir archivos MEDIA (imágenes, archivos subidos desde el admin)
+urlpatterns += static(
+    settings.MEDIA_URL,
+    document_root=settings.MEDIA_ROOT
+)
