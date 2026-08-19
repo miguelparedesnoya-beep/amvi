@@ -6,11 +6,13 @@ from django.urls import reverse
 class Publicacion(models.Model):
     titulo = models.CharField(max_length=200)
     descripcion = models.TextField()
+
     imagen = models.ImageField(
         upload_to="publicaciones/",
         blank=True,
         null=True
     )
+
     autor = models.ForeignKey(
         settings.AUTH_USER_MODEL,
         on_delete=models.SET_NULL,
@@ -18,6 +20,7 @@ class Publicacion(models.Model):
         blank=True,
         related_name="publicaciones_amvi",
     )
+
     fecha_creacion = models.DateTimeField(auto_now_add=True)
     fecha_actualizacion = models.DateTimeField(auto_now=True)
     publicada = models.BooleanField(default=True)
@@ -36,18 +39,29 @@ class Publicacion(models.Model):
 
 class Producto(models.Model):
     nombre = models.CharField(max_length=150)
-    descripcion = models.TextField(blank=True)
+
+    descripcion = models.TextField(
+        blank=True
+    )
+
     precio = models.DecimalField(
         max_digits=12,
         decimal_places=0
     )
+
     imagen = models.ImageField(
         upload_to="productos/",
         blank=True,
         null=True
     )
-    disponible = models.BooleanField(default=True)
-    fecha_creacion = models.DateTimeField(auto_now_add=True)
+
+    disponible = models.BooleanField(
+        default=True
+    )
+
+    fecha_creacion = models.DateTimeField(
+        auto_now_add=True
+    )
 
     class Meta:
         ordering = ["nombre"]
@@ -63,13 +77,16 @@ class FotoGaleria(models.Model):
         max_length=150,
         blank=True
     )
+
     imagen = models.ImageField(
         upload_to="galeria/"
     )
+
     categoria = models.CharField(
         max_length=100,
         default="Comunidad"
     )
+
     fecha_creacion = models.DateTimeField(
         auto_now_add=True
     )
