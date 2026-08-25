@@ -1,11 +1,167 @@
 {% extends "publicaciones/base.html" %}
-{% block title %}AMVI | Productos{% endblock %}
+
+{% block title %}
+ASOPROMUVI | Productos
+{% endblock %}
+
+
 {% block content %}
-<section class="page-banner"><div class="container"><span class="eyebrow">CATÁLOGO</span><h1>Nuestros productos</h1></div></section>
-<section class="section"><div class="container"><div class="row g-4">
-{% for p in productos %}<div class="col-md-6 col-lg-4"><div class="product-card h-100">
-{% if p.imagen %}<img src="{{ p.imagen.url }}" alt="{{ p.nombre }}">{% else %}<div class="placeholder">AMVI</div>{% endif %}
-<div class="p-4"><h4>{{ p.nombre }}</h4><p>{{ p.descripcion }}</p><div class="price">${{ p.precio|floatformat:0 }} COP</div><a class="btn btn-primary w-100 mt-3" target="_blank" href="https://wa.me/{{ whatsapp }}?text=Hola%20AMVI,%20estoy%20interesado%20en%20{{ p.nombre|urlencode }}.">Consultar por WhatsApp</a></div>
-</div></div>{% empty %}<div class="col-12"><p>No hay productos disponibles.</p></div>{% endfor %}
-</div></div></section>
+
+
+<section class="page-banner">
+
+    <div class="container">
+
+        <span class="eyebrow">
+            CATÁLOGO
+        </span>
+
+        <h1>
+            Nuestros productos
+        </h1>
+
+        <p>
+            Apoya los emprendimientos
+            y productores de Villa Isabel.
+        </p>
+
+    </div>
+
+</section>
+
+
+
+<section class="section">
+
+    <div class="container">
+
+
+        <div class="row g-4">
+
+
+            {% for p in productos %}
+
+
+            <div class="col-md-6 col-lg-4 reveal">
+
+
+                <article
+                    class="product-card h-100"
+                >
+
+
+                    {% if p.imagen %}
+
+
+                    <div class="card-image-wrap">
+
+                        <img
+
+                            src="{{ p.imagen.url }}"
+
+                            alt="{{ p.nombre }}"
+
+                        >
+
+                    </div>
+
+
+                    {% else %}
+
+
+                    <div class="placeholder">
+
+                        <span>
+                            ASOPROMUVI
+                        </span>
+
+                    </div>
+
+
+                    {% endif %}
+
+
+
+                    <div class="p-4 d-flex flex-column">
+
+
+                        <h4>
+                            {{ p.nombre }}
+                        </h4>
+
+
+                        <p class="flex-grow-1">
+
+                            {{ p.descripcion }}
+
+                        </p>
+
+
+                        <div class="price">
+
+                            ${{ p.precio|floatformat:0 }}
+                            COP
+
+                        </div>
+
+
+                        <a
+
+                            class="btn btn-primary w-100 mt-3"
+
+                            target="_blank"
+
+                            rel="noopener"
+
+                            href="https://wa.me/573142552654?text=Hola%20ASOPROMUVI,%20estoy%20interesado%20en%20{{ p.nombre|urlencode }}."
+
+                        >
+
+                            <i
+                                class="bi bi-whatsapp">
+                            </i>
+
+                            Consultar por WhatsApp
+
+                        </a>
+
+
+                    </div>
+
+
+                </article>
+
+
+            </div>
+
+
+            {% empty %}
+
+
+            <div class="col-12">
+
+                <div class="empty-state">
+
+                    <i class="bi bi-bag-x"></i>
+
+                    <p>
+                        No hay productos disponibles.
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            {% endfor %}
+
+
+        </div>
+
+
+    </div>
+
+</section>
+
+
 {% endblock %}
