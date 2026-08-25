@@ -1,10 +1,275 @@
 {% extends "publicaciones/base.html" %}
-{% block title %}AMVI | Galería{% endblock %}
+
+{% block title %}
+ASOPROMUVI | Galería
+{% endblock %}
+
+
 {% block content %}
-<section class="page-banner"><div class="container"><span class="eyebrow">MEMORIA AMVI</span><h1>Galería</h1></div></section>
-<section class="section"><div class="container"><div class="row g-3">
-{% for foto in fotos %}<div class="col-6 col-md-4 col-lg-3"><button class="gallery-item border-0 p-0 w-100" data-bs-toggle="modal" data-bs-target="#foto{{ foto.id }}"><img src="{{ foto.imagen.url }}" alt="{{ foto.titulo }}"></button>
-<div class="modal fade" id="foto{{ foto.id }}" tabindex="-1"><div class="modal-dialog modal-lg modal-dialog-centered"><div class="modal-content"><img src="{{ foto.imagen.url }}" class="img-fluid" alt="{{ foto.titulo }}"></div></div></div></div>
-{% empty %}<div class="col-12"><p>Aún no hay fotografías. Súbelas desde <strong>/admin/</strong>.</p></div>{% endfor %}
-</div></div></section>
+
+
+<section class="page-banner">
+
+    <div class="container">
+
+        <span class="eyebrow">
+            MEMORIA ASOPROMUVI
+        </span>
+
+        <h1>
+            Galería
+        </h1>
+
+        <p>
+            Momentos, actividades y experiencias
+            de nuestra comunidad.
+        </p>
+
+    </div>
+
+</section>
+
+
+
+<section class="section">
+
+    <div class="container">
+
+
+        {% if fotos %}
+
+
+        <!-- ===================================
+             GALERÍA AUTOMÁTICA
+        ==================================== -->
+
+        <div
+            id="galleryCarousel"
+            class="carousel slide gallery-carousel reveal"
+
+            data-bs-ride="carousel"
+
+            data-bs-interval="4000"
+
+        >
+
+
+            <!-- INDICADORES -->
+
+            <div class="carousel-indicators">
+
+                {% for foto in fotos %}
+
+                <button
+
+                    type="button"
+
+                    data-bs-target="#galleryCarousel"
+
+                    data-bs-slide-to="{{ forloop.counter0 }}"
+
+                    class="{% if forloop.first %}active{% endif %}"
+
+                    aria-label="
+                        Imagen {{ forloop.counter }}
+                    "
+
+                ></button>
+
+                {% endfor %}
+
+            </div>
+
+
+
+            <!-- IMÁGENES -->
+
+            <div class="carousel-inner">
+
+
+                {% for foto in fotos %}
+
+
+                <div
+                    class="
+                        carousel-item
+                        {% if forloop.first %}
+                            active
+                        {% endif %}
+                    "
+                >
+
+
+                    <img
+
+                        src="{{ foto.imagen.url }}"
+
+                        alt="
+                            {{ foto.titulo|default:'Galería ASOPROMUVI' }}
+                        "
+
+                    >
+
+
+                    {% if foto.titulo %}
+
+                    <div class="carousel-caption">
+
+                        <h5>
+                            {{ foto.titulo }}
+                        </h5>
+
+                        <p>
+                            {{ foto.categoria }}
+                        </p>
+
+                    </div>
+
+                    {% endif %}
+
+
+                </div>
+
+
+                {% endfor %}
+
+
+            </div>
+
+
+
+            <!-- BOTÓN ANTERIOR -->
+
+            <button
+
+                class="carousel-control-prev gallery-control"
+
+                type="button"
+
+                data-bs-target="#galleryCarousel"
+
+                data-bs-slide="prev"
+
+                aria-label="Imagen anterior"
+
+            >
+
+                <span
+                    class="carousel-control-prev-icon">
+                </span>
+
+            </button>
+
+
+
+            <!-- BOTÓN SIGUIENTE -->
+
+            <button
+
+                class="carousel-control-next gallery-control"
+
+                type="button"
+
+                data-bs-target="#galleryCarousel"
+
+                data-bs-slide="next"
+
+                aria-label="Imagen siguiente"
+
+            >
+
+                <span
+                    class="carousel-control-next-icon">
+                </span>
+
+            </button>
+
+
+        </div>
+
+
+
+        <!-- ===================================
+             MINIATURAS
+        ==================================== -->
+
+        <div class="gallery-grid mt-4">
+
+
+            {% for foto in fotos %}
+
+
+            <button
+
+                class="gallery-thumb reveal"
+
+                type="button"
+
+                data-gallery-index="
+                    {{ forloop.counter0 }}
+                "
+
+                aria-label="
+                    Ver {{ foto.titulo|default:'fotografía' }}
+                "
+
+            >
+
+
+                <img
+
+                    src="{{ foto.imagen.url }}"
+
+                    alt="
+                        {{ foto.titulo|default:'Galería ASOPROMUVI' }}
+                    "
+
+                >
+
+
+                <span>
+
+                    <i
+                        class="bi bi-arrows-fullscreen">
+                    </i>
+
+                </span>
+
+
+            </button>
+
+
+            {% endfor %}
+
+
+        </div>
+
+
+        {% else %}
+
+
+        <div class="empty-state">
+
+            <i class="bi bi-images"></i>
+
+            <h3>
+                Aún no hay fotografías
+            </h3>
+
+            <p>
+                Súbelas desde
+                <strong>/admin/</strong>.
+            </p>
+
+        </div>
+
+
+        {% endif %}
+
+
+    </div>
+
+</section>
+
+
 {% endblock %}
